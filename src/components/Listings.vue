@@ -71,14 +71,16 @@
 						{{ listingToBook.room[0].description }}
 					</div>
 
-					<b-field label="Add Ons" >
-						<div v-for="addOn in listingToBook.room[0].addOns" :key="addOn.uuid">
+					<span style="font-weight:600">Add-ons</span>
+					<div v-for="addOn in listingToBook.room[0].addOns" :key="addOn.uuid">
+						<div>
 							<b-checkbox >
-								{{ addOn}}
+								{{ addOn.name}}
 								${{ addOn.cost}}
 							</b-checkbox>
 						</div>
-					</b-field>
+					</div>
+					
 
 
 				</section>
@@ -130,7 +132,6 @@ export default {
 				});
 
 				this.listings = data;
-
 				this.listingToBook = data[0];
 
 			} catch(error) {
