@@ -50,66 +50,21 @@
 			</div>
 		</div>
 
-		<div class="modal" :class="{'is-active': bookingDialog }" >
-			<div class="modal-background">				
-			</div>
-			
-			<div class="modal-card">
-				<header class="modal-card-head">
-					<p class="modal-card-title"> {{ listingToBook.room[0].name }} - {{ listingToBook.room[0].subtitle }}</p>
-					<button class="delete" aria-label="close" @click="cancelBooking()"></button>
-				</header>
-				<section class="modal-card-body">
-					
+		<BookingDialog 
+			v-if="bookingDialog"
+			:listingToBook="listingToBook"
+			@cancel="cancelBooking()"
+		/>
 
-					<div >
-						{{ listingToBook.numberOfNights }} Nights, 
-					</div>
-
-
-					<div class="box">
-						{{ listingToBook.room[0].description }}
-					</div>
-
-					<span style="font-weight:600">Add-ons</span>
-					<div v-for="addOn in listingToBook.room[0].addOns" :key="addOn.uuid">
-						<div>
-							<b-checkbox >
-								{{ addOn.name}}
-								${{ addOn.cost}}
-							</b-checkbox>
-						</div>
-					</div>
-					
-
-
-				</section>
-
-				<footer class="modal-card-foot">
-					<button 
-						class="button is-success"
-						@click="saveEdit()"
-					>
-						Confirm Booking
-					</button>
-					<button 
-						class="button"
-						@click="cancelBooking()"
-					>
-						Cancel
-					</button>
-
-				</footer>
-			</div>
-		</div>
-		
 	</div>
+
 
 
 </template>
 
 <script>
 import axios from 'axios';
+import BookingDialog from './BookingDialog';
 
 export default {
 	name:'Listings',
@@ -121,6 +76,7 @@ export default {
 			listingToBook: {}
 		}
 	},
+	components: { BookingDialog },
 	methods: {
 		async getListings() {
 			try {
@@ -134,6 +90,7 @@ export default {
 				this.listings = data;
 				this.listingToBook = data[0];
 
+
 			} catch(error) {
 				console.log(error);
 			}
@@ -142,8 +99,6 @@ export default {
 
 			this.listingToBook = listing;
 			this.bookingDialog = true;
-
-			console.log(this.listingToBook)
 		},
 		cancelBooking() {
 			this.bookingDialog = false;
@@ -162,8 +117,6 @@ export default {
 	},
 	created() {
 		this.getListings();
-
-		console.log(this.checkInOut)
 	}
 }
 </script>
