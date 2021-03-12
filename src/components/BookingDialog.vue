@@ -78,14 +78,12 @@ export default {
 			try {
 				this.bookingLoading = true;
 
-				
-
 				let lastNight = new Date(this.listingToBook.allDates[this.listingToBook.allDates.length - 1]);
 				let checkOut = new Date(this.listingToBook.allDates[this.listingToBook.allDates.length - 1])
 
 				await axios.post('http://localhost:3000/api/booking/create',
 					{
-						roomUuid: this.listingToBook.roomUuid,
+						roomUuid: this.listingToBook.room[0].uuid,
 						lastNight: lastNight,
 						checkIn: this.listingToBook.checkIn,
 						checkOut: checkOut.setDate(lastNight.getDate() + 1),

@@ -90,6 +90,8 @@ export default {
 				this.listings = data;
 				this.listingToBook = data[0];
 
+				console.log(this.listings)
+
 
 			} catch(error) {
 				console.log(error);
