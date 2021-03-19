@@ -5,7 +5,7 @@
 		
 		<div class="modal-card">
 			<header class="modal-card-head">
-				<p class="modal-card-title"> {{ listingToBook.room[0].name }} - {{ listingToBook.room[0].subtitle }}</p>
+				<p class="modal-card-title"> {{ listingToBook.name }} - {{ listingToBook.subtitle }}</p>
 				<button class="delete" aria-label="close" @click="cancelBooking()"></button>
 			</header>
 			<section class="modal-card-body">
@@ -17,11 +17,11 @@
 
 
 				<div class="box">
-					{{ listingToBook.room[0].description }}
+					{{ listingToBook.description }}
 				</div>
 
 				<span style="font-weight:600">Add-ons</span>
-				<div v-for="addOn in listingToBook.room[0].addOns" :key="addOn.uuid">
+				<div v-for="addOn in listingToBook.addOns" :key="addOn.uuid">
 					<div>
 						<b-checkbox 
 							v-model="addOns"
@@ -47,7 +47,7 @@
 				<button 
 					class="button"
 					@click="cancelBooking()"
-					:bookingLoading="bookingLoading"
+					:loading="bookingLoading"
 				>
 					Cancel
 				</button>
@@ -59,17 +59,17 @@
 
 <script>
 import axios from 'axios';
+import moment from 'moment';
 
 export default {
 	data() {
 		return {
 			addOns: [],
-			totalPrice: this.listingToBook.totalPrice,
 			addOnCosts: 0,
 			bookingLoading: false
 		}
 	},
-	props: [ 'listingToBook' ],
+	props: [ 'listingToBook', 'totalPrice', 'checkIn', 'checkOut' ],
 	methods: {
 		cancelBooking() {
 			this.$emit('cancel');
@@ -78,25 +78,27 @@ export default {
 			try {
 				this.bookingLoading = true;
 
-				let lastNight = new Date(this.listingToBook.allDates[this.listingToBook.allDates.length - 1]);
-				let checkOut = new Date(this.listingToBook.allDates[this.listingToBook.allDates.length - 1])
+				let lastDay = this.moment(new Date(this.checkOut));
+				let lastNight = lastDay.subtract('1', 'days').format('DD-MM-YYYY');
 
 				await axios.post('http://localhost:3000/api/booking/create',
 					{
-						roomUuid: this.listingToBook.room[0].uuid,
+						roomUuid: this.listingToBook.uuid,
 						lastNight: lastNight,
-						checkIn: this.listingToBook.checkIn,
-						checkOut: checkOut.setDate(lastNight.getDate() + 1),
-						numberOfNights: this.listingToBook.allDates.length,
-						listingsBooked: this.listingToBook.listingUuids,
-						roomPrice: this.listingToBook.totalPrice,
+						checkIn: this.checkIn,
+						checkOut: this.checkOut,
+						numberOfNights: this.numDays(this.checkIn, lastDay),
+						roomPrice: this.totalPrice,
 						addOnPrice: this.addOnCosts,
-						totalPrice: this.addOnCosts + this.listingToBook.totalPrice,
+						totalPrice: this.addOnCosts + this.totalPrice,
 						numberOfGuests: 1, // not set up yet,
-						customerDetails: {} // not setup yet
+						customerDetails: {
+							name: 'Thomas Dourgarian',
+							email: 'blahblahj@gmail.com',
+							phoneNumber: 1234567890,
+						}, 
 					}
 				)	
-
 
 				this.bookingLoading = false;
 				this.$emit('cancel');
@@ -104,7 +106,19 @@ export default {
 				console.log(error)
 				this.bookingLoading = false;
 			}
-		}
+		},
+		moment: function (date) {
+			return moment(date);
+		},
+		numDays(day1, day2) {
+
+			const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+
+			const diffDays = Math.round(Math.abs((day1 - day2) / oneDay));
+
+
+			return diffDays + 1;
+		},
 	},
 	watch: {
 		addOns() {

@@ -15,24 +15,24 @@
 				
 			</form>
 
-			<div v-if="listings[0]">
+			<!-- <div v-if="listings[0]">
 				{{ listings[0].numberOfNights }} Nights, starting at ${{ listings[0].totalPrice }}
-			</div>
+			</div> -->
 		</div>
 
 		<div v-for="listing in listings" :key="listing.uuid">
 			<div class="card" style="margin: 0 20% 20px 20%; border: 3px solid grey">
 				<div class="card-content">
 					<div class="title" >
-						{{ listing.room[0].name }}
+						{{ listing.name }}
 					</div>
 
 					<div class="subtitle">
-						{{ listing.room[0].subtitle }}
+						{{ listing.subtitle }}
 					</div>
 
 					<div class="content">
-						{{ listing.room[0].description }}
+						{{ listing.description }}
 					</div>
 
 				</div>
@@ -44,7 +44,7 @@
 							icon-pack="fas"
 							icon-left="star"
 							@click="bookListing(listing)"
-						><b>${{ listing.totalPrice }} Book</b></b-button>
+						><b>${{ calculatePrice(listing) }} Book</b></b-button>
 					</div>
 				</footer>
 			</div>
@@ -53,6 +53,9 @@
 		<BookingDialog 
 			v-if="bookingDialog"
 			:listingToBook="listingToBook"
+			:totalPrice="calculatePrice(listingToBook)"
+			:checkIn="checkInOut[0]"
+			:checkOut="checkInOut[1]"
 			@cancel="cancelBooking()"
 		/>
 
@@ -80,7 +83,8 @@ export default {
 	methods: {
 		async getListings() {
 			try {
-				const { data } = await axios.get('http://localhost:3000/api/listing', {
+
+				const { data } = await axios.get('http://localhost:3000/api/room/listings', {
 					params: {
 						checkIn: this.checkInOut[0].toISOString().split('T')[0],
 						checkOut: this.checkInOut[1].toISOString().split('T')[0]
@@ -90,12 +94,24 @@ export default {
 				this.listings = data;
 				this.listingToBook = data[0];
 
-				console.log(this.listings)
+				console.log(this.listingToBook);
+
+
 
 
 			} catch(error) {
 				console.log(error);
 			}
+		},
+		calculatePrice(room) {
+
+			const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+
+			const diffDays = Math.round(Math.abs((this.checkInOut[0] - this.checkInOut[1]) / oneDay));
+
+			console.log(diffDays)
+
+			return room.basePrice * diffDays;
 		},
 		async bookListing(listing) {
 
