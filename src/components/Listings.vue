@@ -53,7 +53,7 @@
 		<BookingDialog 
 			v-if="bookingDialog"
 			:listingToBook="listingToBook"
-			:totalPrice="calculatePrice(listingToBook)"
+			:roomPrice="calculatePrice(listingToBook)"
 			:checkIn="checkInOut[0]"
 			:checkOut="checkInOut[1]"
 			@cancel="cancelBooking()"
@@ -84,17 +84,17 @@ export default {
 		async getListings() {
 			try {
 
+
 				const { data } = await axios.get('http://localhost:3000/api/room/listings', {
 					params: {
-						checkIn: this.checkInOut[0].toISOString().split('T')[0],
-						checkOut: this.checkInOut[1].toISOString().split('T')[0]
+						checkIn: this.checkInOut[0],
+						checkOut: this.checkInOut[1],
 					}
 				});
 
 				this.listings = data;
 				this.listingToBook = data[0];
 
-				console.log(this.listingToBook);
 
 
 
@@ -109,7 +109,6 @@ export default {
 
 			const diffDays = Math.round(Math.abs((this.checkInOut[0] - this.checkInOut[1]) / oneDay));
 
-			console.log(diffDays)
 
 			return room.basePrice * diffDays;
 		},

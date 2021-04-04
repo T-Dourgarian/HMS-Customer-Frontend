@@ -69,7 +69,7 @@ export default {
 			bookingLoading: false
 		}
 	},
-	props: [ 'listingToBook', 'totalPrice', 'checkIn', 'checkOut' ],
+	props: [ 'listingToBook', 'roomPrice', 'checkIn', 'checkOut' ],
 	methods: {
 		cancelBooking() {
 			this.$emit('cancel');
@@ -79,19 +79,18 @@ export default {
 				this.bookingLoading = true;
 
 				let lastDay = this.moment(new Date(this.checkOut));
-				let lastNight = lastDay.subtract('1', 'days').format('DD-MM-YYYY');
 
 				await axios.post('http://localhost:3000/api/booking/create',
 					{
-						roomUuid: this.listingToBook.uuid,
-						lastNight: lastNight,
+						roomTypeUuid: this.listingToBook.uuid,
 						checkIn: this.checkIn,
 						checkOut: this.checkOut,
 						numberOfNights: this.numDays(this.checkIn, lastDay),
-						roomPrice: this.totalPrice,
+						roomPrice: this.roomPrice,
 						addOnPrice: this.addOnCosts,
-						totalPrice: this.addOnCosts + this.totalPrice,
+						totalPrice: this.addOnCosts + this.roomPrice,
 						numberOfGuests: 1, // not set up yet,
+						addOns: this.addOns,
 						customerDetails: {
 							name: 'Thomas Dourgarian',
 							email: 'blahblahj@gmail.com',
@@ -128,6 +127,7 @@ export default {
 				this.addOnCosts += addOn.cost
 			});
 
+			this.addOnCosts.toFixed(2);
 		}
 	},
 	created() {
