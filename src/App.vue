@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <v-app>
     <Main />
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -16,6 +16,5 @@ export default {
 </script>
 
 <style>
-#app {
-}
+
 </style>

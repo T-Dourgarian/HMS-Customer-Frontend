@@ -5,6 +5,7 @@ import router from './router';
 import VueRouter from 'vue-router';
 import Buefy from 'buefy'
 import './sass/mystyles.scss'
+import vuetify from '@/plugins/vuetify'
 
 
 
@@ -21,5 +22,6 @@ Vue.use(Buefy,
 new Vue({
 	render: h => h(App),
 	store,
-	router
+	router,
+	vuetify
 }).$mount('#app')

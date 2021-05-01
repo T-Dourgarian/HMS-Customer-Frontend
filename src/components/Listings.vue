@@ -1,34 +1,40 @@
 <template>
 	<div v-if="listings">
-		<div class="columns box">
-			<form class="column is-one-third">
-			
+		
+		<v-row style="margin: 0!important" class="dateSearchRow" justify="center" align="center">
+			<v-col cols="3">
 				<div class="dateLabel">Arrival</div>
 				<b-datepicker
 					placeholder="Arrival..."
 					custom-class="datePicker"
 					v-model="arrival"
 					:min-date="minArrival"
+					icon="fas fa-calendar"
 				>
 				</b-datepicker>
+			</v-col>
 
 
-				<b-field label="Departure">
-					<b-datepicker
-						placeholder="Departure..."
-						v-model="departure"
-						:min-date="minDeparture"
-					>
-					</b-datepicker>
-				</b-field>
+			<v-col cols="3">
+				<div class="dateLabel">Departure</div>
+				<b-datepicker
+					placeholder="Departure..."
+					v-model="departure"
+					:min-date="minDeparture"
+					icon="fas fa-calendar"
+					class="datePicker"
+				>
+				</b-datepicker>
+			</v-col>
 
-				<button class="button is-primary" style="margin:0 auto 0 auto" @click="getListings()" >Search</button>
-			</form>
+			<v-col cols="3" align-self="end">
+				<button class="searchButton" @click="getListings()" >Check Availability</button>
+			</v-col>
+		</v-row>
 
 			<!-- <div v-if="listings[0]">
 				{{ listings[0].numberOfNights }} Nights, starting at ${{ listings[0].totalPrice }}
 			</div> -->
-		</div>
 
 		<div v-for="listing in listings" :key="listing.uuid">
 			<div class="card" style="margin: 0 20% 20px 20%; border: 3px solid grey">
@@ -172,10 +178,22 @@ export default {
 	font-size: 19px;
 }
 
-.datePicker {
-	color:black !important;
-	box-shadow: none !important;
+.dateSearchRow {
+	background: rgb(216, 216, 216);
 }
 
+.searchButton {
+	font-family: 'Roboto', sans-serif; 
+	font-weight: 300;
+	letter-spacing: 2px;
+	font-size: 19px;
+	background: grey;
+	padding: 10px 13px 10px 13px;
+	color:rgb(219, 219, 219);
+}
+
+.searchButton:hover {
+	background: rgb(145, 145, 145);
+}
 
 </style>

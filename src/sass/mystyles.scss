@@ -17,6 +17,9 @@ $twitter-invert: findColorInvert($twitter);
 // date picker
 // $datepicker-item-hover-color: grey !important;
 // $datepicker-item-selected-background-color: grey;
+$input-shadow: none !important;
+
+$input-focus-border-color: #afafaf;
 
 // Lists and maps
 $custom-colors: null !default;
