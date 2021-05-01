@@ -4,7 +4,7 @@ import store from './store';
 import router from './router';
 import VueRouter from 'vue-router';
 import Buefy from 'buefy'
-import 'buefy/dist/buefy.css'
+import './sass/mystyles.scss'
 
 
 

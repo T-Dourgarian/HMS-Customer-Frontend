@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import moment from 'moment';
+// import moment from 'moment';
 import createPersistedState from "vuex-persistedstate";
 
 
@@ -10,20 +10,27 @@ const store = new Vuex.Store({
 	state: {
 		user: {},
 		searchParams : {
-			checkInOut: [moment(), moment().add(1, 'day')]
+			arrival: null,
+			departure:  null
 		}
 	},
 	mutations: {
-		setDates: (state, newCheckInOut) => {
-			state.searchParams.checkInOut = newCheckInOut
-		}
+		setArrival: (state, newArrival) => {
+			state.searchParams.arrival = newArrival
+		},
+		setDeparture: (state, newDeparture) => {
+			state.searchParams.departure = newDeparture
+		},
 	},
 	getters: {
-		getCheckInOut: (state) => {
-			return state.searchParams.checkInOut;
+		getArrival: (state) => {
+			return state.searchParams.arrival;
+		},
+		getDeparture: (state) => {
+			return state.searchParams.departure;
 		}
 	},
 	plugins: [createPersistedState()],
 })
 
-export default store
+export default store;
