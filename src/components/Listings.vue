@@ -58,7 +58,7 @@
 							</b-carousel-item>
 						</b-carousel>
 					</v-col>
-					<v-col cols="8">
+					<v-col cols="8" style="position: relative;">
 						<v-row>
 							<v-col class="pb-0">
 								<v-row class="ma-0">
@@ -89,11 +89,15 @@
 								</div>
 							</v-col>
 						</v-row>
+						<button class="bookButton">
+							Book
+							<v-icon color="#e0e0e0" small> fas fa-chevron-right</v-icon> 
+						</button>
+
+						<div class="price">
+							${{ listing.basePrice }} <span class="perNight"> / Night </span>
+						</div>
 					</v-col>
-					<button class="bookButton">
-						Book
-						<v-icon color="#e0e0e0" small> fas fa-chevron-right</v-icon> 
-					</button>
 				</v-row>
 			</v-col>
 		</v-row>
@@ -278,7 +282,7 @@ export default {
 	font-weight: 300;
 	letter-spacing: 2px;
 	font-size: 19px;
-	background-color: grey;
+	background-color:#837254;
 	padding: 10px 13px 10px 13px;
 	color:rgb(219, 219, 219);
 	width:100%;
@@ -291,9 +295,8 @@ export default {
 
 .listingContainer {
 	margin: 20px !important;
-	background-color: rgb(224, 224, 224);
+	background-color: rgb(240, 240, 240);
 	height:250px;
-	position: relative;
 }
 
 .roomTitle {
@@ -329,16 +332,32 @@ export default {
 	position: absolute;
 	bottom:0;
 	right:0;
-	height:40px;
-	width:115px;
+	height:45px;
+	width:125px;
 	background: #837254;
 	padding:5px 10px 5px 10px;
 	color: #e0e0e0;
-	font-family: 'Open Sans', sans-serif;
-	font-size: 20px;
+	font-family: 'Roboto', sans-serif; 
+	font-weight: 300;
+	font-size: 23px;
 }
 
 .bookButton:hover {
 	background: #a08e6e;
 }
+
+.price {
+	position:absolute;
+	font-family: 'Libre Baskerville', serif;
+	font-style: italic;
+	color: #837254;
+	font-size: 20px;
+	bottom: 0;
+	padding: 0 0 5px 0;
+}
+
+.perNight {
+	font-size: 16px;
+}
+
 </style>
