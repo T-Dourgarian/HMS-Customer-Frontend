@@ -24,6 +24,13 @@ $input-shadow: none !important;
 $custom-colors: null !default;
 $custom-shades: null !default;
 
+
+// steps
+$steps-active-color: #a08e6e;
+$steps-previous-color: #a08e6e;
+$steps-marker-default-border: .2em solid #f0f0f0;
+
+
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: mergeColorMaps(
     (
