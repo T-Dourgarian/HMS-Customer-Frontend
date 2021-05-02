@@ -40,10 +40,11 @@
 				{{ listings[0].numberOfNights }} Nights, starting at ${{ listings[0].totalPrice }}
 			</div> -->
 
-		<v-row class="ma-0">
+		<v-row class="ma-0" style="backgroundColor: rgb(240, 240, 240);">
 			<v-col>
-				<v-row v-for="listing in listings" :key="listing.uuid" class="listingContainer">
-					<v-col cols="4" class="pa-0">
+				<v-card v-for="listing in listings" :key="listing.uuid" class="listingContainer" elevation="1">
+					<v-row class="pa-0 ma-0">
+						<v-col cols="4" class="pa-0">
 						<b-carousel
 							:pause-hover="false"
 							:autoplay="false"
@@ -98,7 +99,8 @@
 							${{ listing.basePrice }} <span class="perNight"> / Night </span>
 						</div>
 					</v-col>
-				</v-row>
+					</v-row>
+				</v-card>
 			</v-col>
 		</v-row>
 
@@ -215,24 +217,32 @@ export default {
 		cancelBooking() {
 			this.bookingDialog = false;
 		},
-		formatAmenityArray(amenities) { // formats array to have each element be another array of max length 2 to format amentities  
+		formatAmenityArray(amenities) { // formats amenities array in such a way that they can be nicely formatted in columns in a v-for
 			let mainArray = [];
-			let tempArray = []
+			let tempArray = [];
+
+			let amenitiesPerColumn = amenities.length > 8 ? 3 : 2;
+
 			for (let i = 0; i < amenities.length; i++) {
-				if ( i % 2 === 0) {
+				if ( i % amenitiesPerColumn === 0) {
 					tempArray = [ amenities[i] ];
 
-					if (i === amenities.length - 1) {
-						mainArray.push(tempArray);
-					}
-
 				} else {
+					console.log(i)
 					tempArray.push(amenities[i])
+					
+					if (tempArray.length === amenitiesPerColumn) {
+						mainArray.push(tempArray);
+						tempArray = [];
+					}
+				}
+
+				if (i === amenities.length - 1) {
 					mainArray.push(tempArray);
-					tempArray = [];
 				}
 			}
 
+			console.log('mainArray',mainArray);
 
 			return mainArray;
 		}
@@ -323,7 +333,7 @@ export default {
 }
 
 .amenity {
-	font-family: 'Libre Baskerville', serif;
+	font-family: 'Open Sans', sans-serif;
 	color: #837254;
 	font-size: 13px;
 }
