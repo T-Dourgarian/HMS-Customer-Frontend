@@ -117,7 +117,7 @@
             </b-step-item>
 
             <b-step-item icon="fas fa-clipboard-list" label="Booking Details"   >
-                <Customize :listing="listingToBook" />
+                <Customize :listing="listingToBook" v-if="activeStep == 1"/>
             </b-step-item>
 
             <b-step-item icon="fas fa-check" label="Confirm Booking">
@@ -208,10 +208,10 @@ export default {
 					}
 				});
 
-				console.log(data)
-
 				this.listings = data;
 				this.listingToBook = data[0];
+
+				console.log(this.listingToBook);
 
 
 
@@ -251,7 +251,6 @@ export default {
 					tempArray = [ amenities[i] ];
 
 				} else {
-					console.log(i)
 					tempArray.push(amenities[i])
 					
 					if (tempArray.length === amenitiesPerColumn) {
@@ -264,8 +263,6 @@ export default {
 					mainArray.push(tempArray);
 				}
 			}
-
-			console.log('mainArray',mainArray);
 
 			return mainArray;
 		}
