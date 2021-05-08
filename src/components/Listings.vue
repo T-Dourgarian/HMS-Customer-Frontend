@@ -49,7 +49,7 @@
 			class="steps"
 		>
             <b-step-item icon="fas fa-bed" label="Select a room" :clickable="activeStep > 0 ? true: false" >
-				<v-row class="ma-0" style="backgroundColor: rgb(240, 240, 240);">
+				<v-row class="ma-0" style="backgroundColor: #f1ede7;">
 					<v-col>
 						<v-card v-for="listing in listings" :key="listing.uuid" class="listingContainer" elevation="1">
 							<v-row class="pa-0 ma-0">
@@ -117,7 +117,13 @@
             </b-step-item>
 
             <b-step-item icon="fas fa-clipboard-list" label="Booking Details"   >
-                <Customize :listing="listingToBook" v-if="activeStep == 1"/>
+                <Customize 
+					v-if="activeStep == 1"
+					:listing="listingToBook" 
+					:arrival="arrival"
+					:departure="departure"
+					@navigate="navigate"
+				/>
             </b-step-item>
 
             <b-step-item icon="fas fa-check" label="Confirm Booking">
@@ -224,6 +230,13 @@ export default {
 			this.searchLoading = false;
 
 		},
+		navigate(direction) {
+			if (direction) { // 1 is forward
+				this.activeStep++;
+			} else {// 0 is backward
+				this.activeStep--;
+			}
+		},
 		calculatePrice(room) {
 
 			const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
@@ -312,10 +325,10 @@ export default {
 	font-family: 'Roboto', sans-serif; 
 	font-weight: 300;
 	letter-spacing: 2px;
+	color:rgb(219, 219, 219);
 	font-size: 19px;
 	background-color:#837254;
 	padding: 10px 13px 10px 13px;
-	color:rgb(219, 219, 219);
 	width:100%;
 
 }
@@ -326,7 +339,7 @@ export default {
 
 .listingContainer {
 	margin: 20px !important;
-	/* background-color: rgb(240, 240, 240); */
+	background-color: #f3f3f3 !important;
 	height:250px;
 	border-radius: 0px !important;
 }
@@ -401,7 +414,8 @@ export default {
 
 
 .steps {
-	background-color: rgb(240, 240, 240);
+	background-color: #f1ede7;
 	padding: 10px 0 0 0;
 }
+
 </style>
