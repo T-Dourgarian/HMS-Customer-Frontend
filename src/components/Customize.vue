@@ -1,8 +1,8 @@
 <template>
 	<v-row class="ma-0">
 		<v-col>
-			<v-row class="ma-0" style="backgroundColor: #f1ede7;">
-				<v-col cols="12">
+			<v-row class="ma-0" style="backgroundColor: #f1ede7;" justify="center">
+				<v-col cols="8">
 					<v-card class="card"  elevation="1">
 						<v-row class="pa-0 ma-0">
 							<v-col cols="4" class="pa-0">
@@ -55,14 +55,19 @@
 						</v-row>
 					</v-card>
 				</v-col>
-				<v-col>
+				<v-col cols="8" class="px-0">
+					<v-row class="ma-0 ">
+						<v-col class="py-0 pl-6 summaryHeader">
+							Personalize Your Stay
+						</v-col>
+					</v-row>
 					<v-row class="ma-0">
-						<v-col>
-							<v-card elevation="1" class="card">
+						<v-col >
+							<div class="personalizeContainer">
 								<v-row class="ma-0">
-									<v-col  cols="9">
+									<v-col  cols="8">
 										<v-row class="ma-2 addOnContainer" v-for="(addOn,i) in listing.addOns" :key="addOn.uuid" justify="space-between" align="center">
-											<v-col>
+											<v-col class="pr-0">
 												<b-checkbox 
 													v-model="selectedAddons"
 													:native-value="addOn"
@@ -76,17 +81,17 @@
 												</div>
 
 											</v-col>
-											<v-col cols="1" class="addOnCost">
+											<v-col cols="1" class="addOnCost px-0">
 												${{ addOn.cost}}
 											</v-col>
 											<v-col v-if="i !== listing.addOns.length - 1" class="pa-0" cols="12">
-												<v-divider class="my-1 mx-4"></v-divider>
+												<v-divider class="divider my-1 mx-4"></v-divider>
 											</v-col>
 										</v-row>
 									</v-col>
 
 									
-									<v-divider vertical class="my-4 mx-0"></v-divider>
+									<v-divider vertical class="divider my-4 mx-0"></v-divider>
 									
 
 									<v-col >
@@ -108,13 +113,13 @@
 											</v-col>
 											<v-col class="py-0">
 												<v-row class="ma-0 pa-0">
-													<v-col cols="10" class="px-0">
+													<v-col cols="9" class="px-0">
 														{{ numberOfNights }} Nights |
 													
 														${{ listing.basePrice }} / Night
 													</v-col>
 
-													<v-col cols="2" class="px-0">
+													<v-col cols="3" class="px-0">
 														${{ listing.basePrice * numberOfNights}}
 													</v-col>
 												</v-row>
@@ -128,24 +133,24 @@
 
 											<v-col cols="12" class="pt-1">
 												<v-row class="ma-0 pa-0" v-for="addOn in selectedAddons" :key="addOn.uuid">
-													<v-col cols="10" class="ma-0 pa-0">
+													<v-col cols="9" class="ma-0 pa-0">
 														{{ addOn.name }}
 													</v-col>
-													<v-col cols="2" class="ma-0 pa-0">
+													<v-col cols="3" class="ma-0 pa-0">
 														${{ addOn.cost }}
 													</v-col>
 												</v-row>
 											</v-col>
 
 											<v-col cols="12" class="pt-0">
-												<v-divider class="mt-1">
+												<v-divider class="divider mt-1">
 												</v-divider>
 
 												<v-row class="ma-0 pa-0">
-													<v-col cols="10" class="pa-0 ma-0">
+													<v-col cols="9" class="pa-0 ma-0">
 														Total
 													</v-col>
-													<v-col cols="2" class="pa-0 ma-0">
+													<v-col cols="3" class="pa-0 ma-0">
 														${{ total }}
 													</v-col>
 												</v-row>
@@ -153,23 +158,27 @@
 										</v-row>
 									</v-col>
 								</v-row>
-							</v-card>
+							</div>
 						</v-col>
 					</v-row>
 				</v-col>
 			</v-row>
-			<v-row class="ma-0 px-5" justify="space-between" align="center">
-				<v-col cols="3" >
-					<button class="continueButton" @click="navigate(0)">
-						<v-icon style="margin: 0 0 0 5px;" color="#e0e0e0" small> fas fa-chevron-left</v-icon> 
-						Back
-					</button>
-				</v-col>
-				<v-col cols="3" class="continueButtonContainer">
-					<button class="continueButton" @click="navigate(1)">
-						Continue
-						<v-icon style="margin: 0 0 0 5px;" color="#e0e0e0" small> fas fa-chevron-right</v-icon> 
-					</button>
+			<v-row class="ma-0 px-5" justify="center" align="center">
+				<v-col cols="8" class="px-0">
+					<v-row class="ma-0" justify="space-between" align="center">
+						<v-col cols="4" >
+							<button class="continueButton" @click="navigate(0)">
+								<v-icon style="margin: 0 0 0 5px;" color="#e0e0e0" small> fas fa-chevron-left</v-icon> 
+								Back
+							</button>
+						</v-col>
+						<v-col cols="4" class="continueButtonContainer">
+							<button class="continueButton" @click="navigate(1)">
+								Continue
+								<v-icon style="margin: 0 0 0 5px;" color="#e0e0e0" small> fas fa-chevron-right</v-icon> 
+							</button>
+						</v-col>
+					</v-row>
 				</v-col>
 			</v-row>
 		</v-col>
@@ -260,7 +269,7 @@ export default {
 }
 
 .addOnCost {
-	font-size: 18px;
+	font-size: 16px;
 	color: #524329;
 }
 
@@ -295,6 +304,14 @@ export default {
 
 .continueButtonContainer {
 	text-align: right;
+}
+
+.personalizeContainer {
+	background-color:  #e7e1d4;
+}
+
+.divider {
+	background-color: #524329 !important;
 }
 
 

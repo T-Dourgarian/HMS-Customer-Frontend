@@ -6,11 +6,11 @@
 @import "~bulma/sass/utilities/_all";
 
 // Set your colors
-$primary: #9b9b9b ;
+$primary: #837254 ;
 $primary-light: findLightColor($primary);
 $primary-dark: findDarkColor($primary);
 $primary-invert: findColorInvert($primary);
-$twitter: #4099FF;
+$twitter: #837254;
 $twitter-invert: findColorInvert($twitter);
 
 
@@ -19,6 +19,7 @@ $twitter-invert: findColorInvert($twitter);
 // $datepicker-item-selected-background-color: grey;
 $input-shadow: none !important;
 
+$select-arrow-color: #837254 !important;
 
 // Lists and maps
 $custom-colors: null !default;
