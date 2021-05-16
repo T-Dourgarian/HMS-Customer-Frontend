@@ -2,7 +2,7 @@
 	<v-row class="ma-0">
 		<v-col>
 			<v-row class="ma-0" style="backgroundColor: #f1ede7;" justify="center">
-				<v-col cols="8">
+				<v-col cols="12">
 					<v-card class="card"  elevation="1">
 						<v-row class="pa-0 ma-0">
 							<v-col cols="4" class="pa-0">
@@ -55,7 +55,7 @@
 						</v-row>
 					</v-card>
 				</v-col>
-				<v-col cols="8" class="px-0">
+				<v-col cols="12" class="px-0">
 					<v-row class="ma-0 ">
 						<v-col class="py-0 pl-6 summaryHeader">
 							Personalize Your Stay
@@ -164,7 +164,7 @@
 				</v-col>
 			</v-row>
 			<v-row class="ma-0 px-5" justify="center" align="center">
-				<v-col cols="8" class="px-0">
+				<v-col cols="12" class="px-0">
 					<v-row class="ma-0" justify="space-between" align="center">
 						<v-col cols="4" >
 							<button class="continueButton" @click="navigate(0)">
@@ -307,7 +307,8 @@ export default {
 }
 
 .personalizeContainer {
-	background-color:  #e7e1d4;
+	background-color:  #f3f3f3;
+	border: 1px solid rgb(212, 212, 212);
 }
 
 .divider {

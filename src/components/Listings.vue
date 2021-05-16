@@ -1,76 +1,6 @@
 <template>
-	<div v-if="listings">
-
-		<v-row class="dateSearchRow ma-0 py-0" justify="center" align="center" v-if="activeStep == 0">
-			<v-col cols="2" class="pb-0">
-				<div class="dateLabel">Arrival</div>
-			</v-col >
-			<v-col cols="2" class="pb-0">
-				<div class="dateLabel">Departure</div>
-			</v-col>
-			<v-col cols="1" class="pb-0">
-				<div class="numOfGuestsLabel">No. of Guests</div>
-			</v-col>
-			<v-col cols="2" class="pb-0">
-				<div class="numOfGuestsLabel"></div>
-			</v-col>
-
-		</v-row>
-		
-		<v-row  class="dateSearchRow ma-0" justify="center" align="center"  v-if="activeStep == 0">
-			<v-col cols="2" class='pt-0'>
-				<b-datepicker
-					placeholder="Arrival..."
-					custom-class="datePicker"
-					v-model="arrival"
-					:min-date="minArrival"
-					icon="fas fa-calendar"
-				>
-				</b-datepicker>
-			</v-col>
-		
-
-			<v-col cols="2" class='pt-0'>
-				<b-datepicker
-					placeholder="Departure..."
-					v-model="departure"
-					:min-date="minDeparture"
-					icon="fas fa-calendar"
-					class="datePicker"
-				>
-				</b-datepicker>
-			</v-col>
-
-			<v-col cols="1" class='pt-0'>
-				<b-select v-model="numOfGuests"
-					icon="fas fa-male"
-					type="is-primary"
-				>
-					<option
-						v-for="i in [1,2,3,4]"
-						:value="i"
-						:key="i"
-					>
-						{{ i }}
-					</option>
-				</b-select>
-			</v-col>
-
-
-			<v-col cols="2" align-self="end" class='pt-0'>
-				<button class="searchButton" @click="getListings()"> 
-					<v-icon v-if="searchLoading" color="rgb(219, 219, 219)">fas fa-circle-notch fa-spin</v-icon>	
-					
-					<div v-else  class="searchIcon">Check Availability</div>
-				</button>
-			</v-col>
-		</v-row>
-
-			<!-- <div v-if="listings[0]">
-				{{ listings[0].numberOfNights }} Nights, starting at ${{ listings[0].totalPrice }}
-			</div> -->
-
-
+	<div>
+		<div class="stepsContainer">
 		<b-steps
             v-model="activeStep"
             :animated="true"
@@ -79,8 +9,75 @@
 			class="steps"
 		>
             <b-step-item icon="fas fa-bed" label="Select a room" :clickable="activeStep > 0 ? true: false" >
+				<v-row class="dateSearchRow  py-0" justify="center" align="center" v-if="activeStep == 0">
+					<v-col cols="3" class="pb-0">
+						<div class="dateLabel">Arrival</div>
+					</v-col >
+					<v-col cols="3" class="pb-0">
+						<div class="dateLabel">Departure</div>
+					</v-col>
+					<v-col cols="1" class="pb-0">
+						<div class="numOfGuestsLabel">No. of Guests</div>
+					</v-col>
+					<v-col cols="3" class="pb-0">
+						<div class="numOfGuestsLabel"></div>
+					</v-col>
+
+				</v-row>
+				
+				<v-row  class="dateSearchRow2" justify="center" align="center"  v-if="activeStep == 0">
+					<v-col cols="3" class='pt-0'>
+						<b-datepicker
+							placeholder="Arrival..."
+							custom-class="datePicker"
+							v-model="arrival"
+							:min-date="minArrival"
+							icon="fas fa-calendar"
+						>
+						</b-datepicker>
+					</v-col>
+				
+
+					<v-col cols="3" class='pt-0'>
+						<b-datepicker
+							placeholder="Departure..."
+							v-model="departure"
+							:min-date="minDeparture"
+							icon="fas fa-calendar"
+							class="datePicker"
+						>
+						</b-datepicker>
+					</v-col>
+
+					<v-col cols="1" class='pt-0 px-0'>
+						<b-select v-model="numOfGuests"
+							icon="fas fa-male"
+							type="is-primary"
+						>
+							<option
+								v-for="i in [1,2,3,4]"
+								:value="i"
+								:key="i"
+							>
+								{{ i }}
+							</option>
+						</b-select>
+					</v-col>
+
+
+					<v-col cols="3" align-self="end" class='pt-0'>
+						<button class="searchButton" @click="getListings()"> 
+							<v-icon v-if="searchLoading" color="rgb(219, 219, 219)">fas fa-circle-notch fa-spin</v-icon>	
+							
+							<div v-else  class="searchIcon">Check Availability</div>
+						</button>
+					</v-col>
+				</v-row>
+
+
+
 				<v-row class="ma-0" style="backgroundColor: #f1ede7;" align="center" justify="center">
-					<v-col cols="9">
+					<v-col cols="12">
 						<v-card v-for="listing in listings" :key="listing.uuid" class="listingContainer" elevation="1">
 							<v-row class="pa-0 ma-0">
 								<v-col cols="4" class="pa-0">
@@ -157,10 +154,11 @@
             </b-step-item>
 
             <b-step-item icon="fas fa-check" label="Confirm Booking">
-                Lorem ipsum dolor sit amet.
+                <CustomerDetails />
             </b-step-item>
 
         </b-steps>
+	
 
 
 
@@ -203,7 +201,7 @@
 			:checkOut="departure"
 			@cancel="cancelBooking()"
 		/>
-
+		</div>
 	</div>
 
 
@@ -215,6 +213,7 @@ import axios from 'axios';
 import BookingDialog from './BookingDialog';
 import moment from 'moment';
 import Customize from './Customize';
+import CustomerDetails from './CustomerDetails';
 
 export default {
 	name:'Listings',
@@ -230,7 +229,7 @@ export default {
 			numOfGuests: 2
 		}
 	},
-	components: { BookingDialog, Customize },
+	components: { BookingDialog, Customize, CustomerDetails },
 	methods: {
 		async getListings() {
 			try {
@@ -352,6 +351,7 @@ export default {
 
 <style>
 
+
 .dateLabel {
 	font-family: 'Roboto', sans-serif; 
 	font-weight: 300;
@@ -369,7 +369,15 @@ export default {
 }
 
 .dateSearchRow {
-	background: rgb(216, 216, 216);
+	background: #f1ede7;
+	margin:0 auto 0 auto !important;
+	border-top: 1px solid rgb(223, 223, 223);
+}
+
+.dateSearchRow2 {
+	background: #f1ede7;
+	border-bottom: 1px solid rgb(223, 223, 223);
+	margin:0 auto 0 auto !important;
 }
 
 .searchButton {
@@ -377,7 +385,7 @@ export default {
 	font-weight: 300;
 	letter-spacing: 2px;
 	color:rgb(219, 219, 219);
-	font-size: 19px;
+	font-size: 17px;
 	background-color:#837254;
 	padding: 10px 13px 10px 13px;
 	width:100%;
@@ -466,7 +474,13 @@ export default {
 
 .steps {
 	background-color: #f1ede7;
-	padding: 10px 0 0 0;
+	width: 80%;
+	margin: auto;
+	padding:10px 0 0 0;
+}
+
+.stepsContainer {
+	background-color:#998b72;
 }
 
 </style>
