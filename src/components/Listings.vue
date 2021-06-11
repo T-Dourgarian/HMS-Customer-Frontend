@@ -146,6 +146,7 @@
             <b-step-item icon="fas fa-clipboard-list" label="Booking Details"   >
                 <Customize 
 					v-if="activeStep == 1"
+					:propAddons="selectedAddons"
 					:listing="listingToBook" 
 					:arrival="arrival"
 					:departure="departure"
@@ -154,7 +155,15 @@
             </b-step-item>
 
             <b-step-item icon="fas fa-check" label="Confirm Booking">
-                <CustomerDetails />
+                <CustomerDetails 
+					v-if="activeStep == 2"
+					:selectedAddons="selectedAddons"
+					:listing="listingToBook" 
+					:arrival="arrival"
+					:departure="departure"
+					@navigate="navigate"
+					:numOfGuests="numOfGuests"
+				/>
             </b-step-item>
 
         </b-steps>
@@ -226,7 +235,8 @@ export default {
 			minArrival: moment().subtract(1,'day').toDate(),
 			searchLoading: false,
 			activeStep: 0,
-			numOfGuests: 2
+			numOfGuests: 2,
+			selectedAddons: []
 		}
 	},
 	components: { BookingDialog, Customize, CustomerDetails },
@@ -247,8 +257,6 @@ export default {
 				this.listings = data;
 				this.listingToBook = data[0];
 
-				console.log(this.listingToBook);
-
 
 
 
@@ -260,12 +268,18 @@ export default {
 			this.searchLoading = false;
 
 		},
-		navigate(direction) {
+		navigate(direction, selectedAddons) {
 			if (direction) { // 1 is forward
 				this.activeStep++;
+				this.selectedAddons = selectedAddons;
 			} else {// 0 is backward
 				this.activeStep--;
 			}
+
+			if (this.activeStep === 0) {
+				this.selectedAddons = [];
+			}
+
 		},
 		calculatePrice(room) {
 
@@ -467,8 +481,7 @@ export default {
 
 .step-content {
 	padding: 0 !important;
-	height:100vh;
-	overflow-y: scroll;
+	height:auto;
 }
 
 
@@ -481,6 +494,8 @@ export default {
 
 .stepsContainer {
 	background-color:#998b72;
+	height:100vh;
+	overflow-y: scroll;
 }
 
 </style>

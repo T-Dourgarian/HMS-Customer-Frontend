@@ -3,7 +3,7 @@
 		<v-col>
 			<v-row class="ma-0" style="backgroundColor: #f1ede7;" justify="center">
 				<v-col cols="12">
-					<v-card class="card"  elevation="1">
+					<!-- <v-card class="card"  elevation="1"> -->
 						<v-row class="pa-0 ma-0">
 							<v-col cols="4" class="pa-0">
 							<b-carousel
@@ -53,7 +53,7 @@
 							</v-row>
 						</v-col>
 						</v-row>
-					</v-card>
+					<!-- </v-card> -->
 				</v-col>
 				<v-col cols="12" class="px-0">
 					<v-row class="ma-0 ">
@@ -192,9 +192,9 @@ export default {
 			selectedAddons: [],
 		}
 	},
-	props:[ 'listing', 'arrival', 'departure' ],
+	props:[ 'listing', 'arrival', 'departure', 'propAddons' ],
 	created() {
-		this.selectedAddons = [];
+		this.selectedAddons = JSON.parse(JSON.stringify(this.propAddons));
 	},
 	methods: {
 		formatAmenityArray(amenities) { // formats amenities array in such a way that they can be nicely formatted in columns in a v-for
@@ -225,7 +225,7 @@ export default {
 			return mainArray;
 		},
 		navigate(direction) {
-			this.$emit('navigate', direction)
+			this.$emit('navigate', direction, this.selectedAddons)
 		}
 	},
 	computed: {
